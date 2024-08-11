@@ -1,8 +1,9 @@
 let express = require('express');
 let dotenv = require('dotenv')
+dotenv.config();
 let app = express();
 
-dotenv.config();
+
 console.log("Hello World")
 
 const absolutePath = __dirname + '/views/index.html'
@@ -13,7 +14,7 @@ app.get('/', function(req, res){
 })
 app.use("/public", express.static(publicFolder))
 
-app.get('/json', function(req, res){
+app.get('/json', (req, res) => {
     const messageStyle = process.env.MESSAGE_STYLE
     let message = "Hello json"
 
