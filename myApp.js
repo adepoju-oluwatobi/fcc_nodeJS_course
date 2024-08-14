@@ -3,6 +3,13 @@ let dotenv = require('dotenv')
 dotenv.config();
 let app = express();
 
+console.log("Hello World")
+
+const absolutePath = __dirname + '/views/index.html'
+const publicFolder = __dirname + '/public'
+
+app.use("/public", express.static(publicFolder))
+
 // logger middleware
 app.use((req, res, next) => {
     const logMessage = `${req.method} ${req.path} - ${req.ip}`
@@ -10,16 +17,9 @@ app.use((req, res, next) => {
     next();
 })
 
-
-console.log("Hello World")
-
-const absolutePath = __dirname + '/views/index.html'
-const publicFolder = __dirname + '/public'
-
 app.get('/', function(req, res){
     res.sendFile(absolutePath)
 })
-app.use("/public", express.static(publicFolder))
 
 app.get('/json', (req, res) => {
     const messageStyle = process.env.MESSAGE_STYLE
@@ -37,5 +37,10 @@ app.get('/now', (req,res, next) => {
 }, function(req, res){
     res.json({"time": req.time})
 })
+
+app.get('/:word/echo', function(req, res){
+    let word = req.params.word;
+    res.json({echo: word});
+});
 
  module.exports = app;
