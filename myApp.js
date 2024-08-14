@@ -1,5 +1,6 @@
 let express = require('express');
 let dotenv = require('dotenv')
+let bodyParser = require('body-parser')
 dotenv.config();
 let app = express();
 
@@ -16,6 +17,9 @@ app.use((req, res, next) => {
     console.log(logMessage)
     next();
 })
+
+// Middleware to handle URL-encoded data
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', function(req, res){
     res.sendFile(absolutePath)
@@ -43,17 +47,6 @@ app.get('/:word/echo', function(req, res){
     res.json({echo: word});
 });
 
-// app.get('/name', (req, res) => {
-//     let firstName = req.query.first;
-//     let lastName = req.query.last
-//     res.json({name: `${firstName} ${lastName}`})
-// })
-
-// app.post('/name', (req, res) => {
-//     let firstName = req.query.first;
-//     let lastName = req.query.last
-//     res.json({name: `${firstName} ${lastName}`})
-// })
 app.route('/name')
     .get((req, res) => {
         let firstName = req.query.first;
