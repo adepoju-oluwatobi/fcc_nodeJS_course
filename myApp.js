@@ -3,6 +3,13 @@ let dotenv = require('dotenv')
 dotenv.config();
 let app = express();
 
+// logger middleware
+app.use((req, res, next) => {
+    const logMessage = `${req.method} ${req.path} - ${req.ip}`
+    console.log(logMessage)
+    next();
+})
+
 
 console.log("Hello World")
 
